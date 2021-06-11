@@ -111,6 +111,12 @@ pub enum RuntimeError {
     /// Cannot lookup.
     #[error("Cannot lookup some information required to validate the transaction.")]
     CannotLookup,
+    /// Token error.
+    #[error("Token error: {0}")]
+    Token(&'static str),
+    /// Arithmetic error.
+    #[error("Arithmetic error: {0}")]
+    Arithmetic(&'static str),
     /// Other error.
     #[error("Other error: {0}")]
     Other(String),
@@ -140,6 +146,8 @@ impl RuntimeError {
             DispatchError::ConsumerRemaining => Ok(Self::ConsumerRemaining),
             DispatchError::NoProviders => Ok(Self::NoProviders),
             DispatchError::Other(msg) => Ok(Self::Other(msg.into())),
+            DispatchError::Token(msg) => Ok(Self::Token(msg.into())),
+            DispatchError::Arithmetic(msg) => Ok(Self::Arithmetic(msg.into())),
         }
     }
 }
